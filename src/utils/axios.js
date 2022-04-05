@@ -13,7 +13,6 @@ axios.interceptors.request.use(
   (config) => {
     // 判断是否需要loading图标
     const isHideLoading = config.headers.isHideLoading || "";
-    console.log("isHideLoading---", isHideLoading);
     if (!isHideLoading) {
       showLoading();
     }
@@ -27,11 +26,10 @@ axios.interceptors.request.use(
     return config;
   },
   (error) => {
-    ElMessage.error("请求发生错误");
-    console.log("error", error);
     setTimeout(() => {
       hideLoading();
     }, 3000);
+    console.log("请求发生错误：", error);
     return Promise.reject(error);
   }
 );
@@ -41,8 +39,8 @@ axios.interceptors.response.use(
     console.log("初始response---", response);
     hideLoading();
     const { statusText, status, data } = response || {};
+    // 请求成功
     if (response && (statusText === "ok" || status === 200)) {
-      // 请求成功
       if (data.returnCode === "000000") {
         return data || {};
       } else if (data.returnCode === "000996") {
@@ -62,14 +60,7 @@ axios.interceptors.response.use(
     setTimeout(() => {
       hideLoading();
     }, 3000);
-    console.log(error);
-    if (error.response && error.response.data) {
-      const code = error.response.status;
-      const msg = error.response.data.message;
-      ElMessage.error(`Code: ${code}, Message: ${msg}`);
-    } else {
-      ElMessage.error(`错误信息：${error}`);
-    }
+    console.log("请求响应错误", error);
     return Promise.reject(error);
   }
 );

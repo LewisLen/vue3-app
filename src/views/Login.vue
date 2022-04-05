@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { reactive, onMounted, getCurrentInstance } from "vue";
+import { reactive, toRefs, onMounted, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 export default {
@@ -37,8 +37,8 @@ export default {
         method: "POST",
         headers: { isHideLoading: true },
         data: {
-          userName: refData.userName,
-          passWord: refData.passWord,
+          userName: data.userName,
+          passWord: data.passWord,
         },
       }).then((res) => {
         console.log(res);
@@ -51,13 +51,13 @@ export default {
         method: "POST",
         headers: { isHideLoading: true },
         data: {
-          userName: refData.userName,
-          passWord: refData.passWord,
+          userName: data.userName,
+          passWord: data.passWord,
         },
       })
         .then((res) => {
-          refData.userName = "";
-          refData.passWord = "";
+          data.userName = "";
+          data.passWord = "";
           sessionStorage.setItem("__tokenInfo__", res.token || "");
           router.push({
             name: "About",
@@ -75,16 +75,19 @@ export default {
         method: "GET",
         headers: { isHideLoading: true },
       }).then((res) => {
-        ElMessage.success(`你好呀! ${res.userName}`);
+        if (res.userName) {
+          ElMessage.success(`你好呀! ${res.userName}`);
+        }
         console.log(res);
       });
     }
 
-    const refData = reactive({
+    const data = reactive({
       userName: "",
       passWord: "",
     });
-
+    // toRefs为了能使reactive对象能够被结构
+    const refData = toRefs(data);
     onMounted(() => {});
 
     return {
