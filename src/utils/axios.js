@@ -68,7 +68,7 @@ axios.interceptors.response.use(
       const msg = error.response.data.message;
       ElMessage.error(`Code: ${code}, Message: ${msg}`);
     } else {
-      ElMessage.error(`${error}`);
+      ElMessage.error(`错误信息：${error}`);
     }
     return Promise.reject(error);
   }
