@@ -1,8 +1,7 @@
 import Axios from "axios";
 import { ElMessage } from "element-plus";
 import { showLoading, hideLoading } from "./loading";
-
-const baseURL = "http://localhost:3030/";
+import { baseURL } from "../assets/js/constant";
 
 const axios = Axios.create({
   baseURL,

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
+import Chat from "../views/Chat.vue";
 
 const routes = [
   {
@@ -24,6 +25,14 @@ const routes = [
     component: () => import("../views/About.vue"),
   },
   {
+    path: "/chat",
+    name: "Chat",
+    component: Chat,
+    meta: {
+      title: "聊天室",
+    },
+  },
+  {
     path: "/404",
     name: "404",
     component: () => import("../views/Error.vue"),
@@ -37,6 +46,13 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title;
+  }
+  next();
 });
 
 export default router;
