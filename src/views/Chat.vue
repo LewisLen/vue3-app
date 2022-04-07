@@ -3,7 +3,10 @@
     <h3>随心聊天室</h3>
     <div class="chat-content">
       <p v-for="(item, index) in chatMsg" :key="index">
-        {{ item.user }}在{{ item.msgDate }}时说：{{ item.msg }}
+        <span>{{ item.user }}</span> 在 {{ item.msgDate }} 时说：<span
+          class="chat-msg"
+          >{{ item.msg }}</span
+        >
       </p>
     </div>
     <div class="chat-input">
@@ -37,6 +40,9 @@ export default {
     const refData = toRefs(data);
 
     onMounted(() => {
+      socket.on("connection", (socket) => {
+        console.log("建立链接成功", socket.request);
+      });
       socket.on("serve-send-msg", (res) => {
         data.chatMsg.push(res);
       });
@@ -62,4 +68,26 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.chat-box {
+  width: 900px;
+  margin: 0 auto;
+}
+.chat-content {
+  padding: 10px;
+  border: 1px solid #ccc;
+  height: 300px;
+  text-align: left;
+  overflow: hidden;
+  overflow-y: visible;
+  margin-bottom: 10px;
+}
+.chat-msg {
+  background-color: aliceblue;
+  border-radius: 6px;
+  padding: 6px;
+}
+.chat-input {
+  display: flex;
+}
+</style>
