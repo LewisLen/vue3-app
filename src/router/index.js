@@ -5,6 +5,11 @@ import Chat from "../views/Chat.vue";
 
 const routes = [
   {
+    path: "/demo",
+    name: "Demo",
+    component: () => import("../views/Demo.vue"),
+  },
+  {
     path: "/",
     name: "Index",
     redirect: "/home",
