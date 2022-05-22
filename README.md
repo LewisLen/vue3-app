@@ -1,3 +1,11 @@
 # vue3-app
 
-a vue3 project.
+## 安装启动
+
+选择的是 eslint + prettier 的方式
+
+```
+# 创建项目
+vue create hello-world
+npm install
+```
